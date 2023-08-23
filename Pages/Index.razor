@@ -1,0 +1,62 @@
+﻿@page "/"
+@using Radzen
+@using Radzen.Blazor
+
+<PageTitle>Index</PageTitle>
+
+<RadzenHeading Size="H5" Text="C# Search Bar" />
+
+<RadzenContent Style="width: 25%; padding: 0;">
+    <RadzenTextBox Style="border: none; font-weight: 900; text-transform: uppercase; width: 100%; outline: none; border-bottom: 1px solid rgb(0,0,0,0.2) !important; height: 60px; padding: 0 16px;" Placeholder="Search here!" @bind-Value=@(Search) @oninput="args => InputChange(args.Value.ToString())" />
+    @if (ListOfStrings != null)
+    {
+        <div style="width: 100%; display: flex; align-items: center; flex-direction: column;">
+            @foreach (var __name in ListOfStrings.Where(s => s.Contains(Search, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                <div style="width: 100%; border-bottom: 1px solid rgb(0,0,0,0.2);">
+                    <RadzenText Style="font-weight: 900; text-transform: uppercase; margin: 0; padding: 8px 16px;" Text=@(__name)/>
+                </div>
+            }
+        </div>
+    }
+</RadzenContent>
+
+
+@code {
+
+    public string Search { get; set; } = "";
+
+    public IList<string> ListOfStrings { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListOfStrings = new List<string>();
+        DataInitializer();
+    }
+
+    protected void DataInitializer()
+    {
+        ListOfStrings.Add("Alice Johnson");
+        ListOfStrings.Add("Bob Smith");
+        ListOfStrings.Add("Catherine Brown");
+        ListOfStrings.Add("David Williams");
+        ListOfStrings.Add("Emily Davis");
+        ListOfStrings.Add("Frank Martinez");
+        ListOfStrings.Add("Grace Anderson");
+        ListOfStrings.Add("Henry Taylor");
+        ListOfStrings.Add("Isabella Wilson");
+        ListOfStrings.Add("Jack Thompson");
+        ListOfStrings.Add("Katherine Clark");
+        ListOfStrings.Add("Liam Rodriguez");
+        ListOfStrings.Add("Mia Hernandez");
+        ListOfStrings.Add("Noah Miller");
+        ListOfStrings.Add("Olivia Davis");
+    }
+
+    public void InputChange(string arg)
+    {
+        Search = arg;
+        
+        StateHasChanged();
+    }
+}
